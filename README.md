@@ -15,4 +15,3 @@
 
 3. As classes foram desenvolvidas utilizando C++ e aplicando os conceitos de Orientação a Objetos.
 O projeto foi compilado utilizando o G++ e os testes unitários foram implementados com a biblioteca Google Test.
-# bus-manager
