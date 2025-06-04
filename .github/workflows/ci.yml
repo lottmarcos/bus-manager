@@ -1,0 +1,46 @@
+name: Run Tests and Upload Coverage
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake
+        sudo apt-get install -y g++ build-essential libgtest-dev gcovr lcov
+        sudo apt-get install libsqlite3-dev
+
+    - name: Build the project
+      run: |
+        make clean
+        make all
+
+    - name: Run Tests with Coverage
+      run: |
+        cd build
+        ctest --output-on-failure
+        lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,mismatch --ignore-errors unused --ignore-errors branches
+        lcov --remove coverage.info '/usr/*' '*/test/*' --output-file coverage.info --ignore-errors mismatch,mismatch --ignore-errors unused
+        echo "Coverage report avaliable in 'https://app.codecov.io/gh/lottmarcos/bus-manager/tree/main'"
+
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./build/coverage.info
+        flags: unittests
+        name: codecov-report
+        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
