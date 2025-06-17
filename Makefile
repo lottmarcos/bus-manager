@@ -85,4 +85,4 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 # Alvo padrão
-all: run_unit_tests
+all: run_unit_tests run_integration_tests

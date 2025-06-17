@@ -10,7 +10,7 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
 # Add the source files
-set(SOURCES 
+set(SOURCES
     src/models/Data.cpp
     src/models/Database.cpp
     src/models/Onibus.cpp
